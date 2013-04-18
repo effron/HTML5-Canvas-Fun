@@ -10,11 +10,14 @@ var Circles = (function () {
     return new Circle(
       maxX * Math.random(),
       maxY * Math.random(),
-      MAX_RADIUS * Math.random()
+      Circle.MAX_RADIUS * Math.random()
     );
   };
 
-  Circle.prototype.draw = function (ctx) {
+  Circle.prototype.render = function (ctx) {
+    console.log(ctx);
+
+    ctx.fillStyle = "black";
     ctx.beginPath();
 
     ctx.arc(
@@ -22,7 +25,7 @@ var Circles = (function () {
       this.centerY,
       this.radius,
       0,
-      2 * Math.pi,
+      2 * Math.PI,
       false
     );
 
@@ -35,14 +38,15 @@ var Circles = (function () {
 
     this.circles = []
     for (var i = 0; i < numCircles; ++i) {
-      this.circles.push(Circle.makeCircle(xDim, yDim));
+      this.circles.push(Circle.randomCircle(xDim, yDim));
     }
   }
 
   Game.prototype.render = function (ctx) {
-    ctx.clearRect(0, 0, xDim, yDim);
+    ctx.clearRect(0, 0, this.xDim, this.yDim);
 
     for (var i = 0; i < this.circles.length; ++i) {
+      console.log(this.circles[i]);
       this.circles[i].render(ctx);
     }
   };
@@ -52,10 +56,11 @@ var Circles = (function () {
     // a `getContext` method on a cnvas DOM element.
     var ctx = canvasEl.getContext("2d");
 
+    // render at 60 FPS
     var that = this;
     window.setInterval(function () {
       that.render(ctx);
-    });
+    }, 1000);
   };
 
   return {
