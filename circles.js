@@ -80,9 +80,11 @@ var Circles = (function () {
       }
       this.circles[i].centerY = (this.circles[i].centerY +
                                  this.circles[i].ySpeed *
-                                 this.circles[i].yDirection +
-                                 this.yDim) %
-                                 this.yDim ;
+                                 this.circles[i].yDirection)
+
+      if (this.circles[i].centerY < 0 || this.circles[i].centerY > this.YDim){
+       this.circles[i].yDirection *= -1
+      }
       this.circles[i].setRandColor();
     }
   };
