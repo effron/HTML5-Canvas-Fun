@@ -18,11 +18,23 @@ var Circles = (function () {
 
   Circle.MAX_RADIUS = 20;
   Circle.randomCircle = function (maxX, maxY) {
-    return new Circle(
-      Math.floor(maxX * Math.random()),
-      Math.floor(maxY * Math.random()),
-      Math.floor(Circle.MAX_RADIUS * Math.random())
-    );
+    var radius = Math.floor(Circle.MAX_RADIUS * Math.random());
+    var xpos = Math.floor(maxX * Math.random());
+    if(xpos < radius){
+      xpos += radius;
+    }
+    else if(xpos > maxX - radius){
+      xpos -= radius;
+    }
+
+    var ypos = Math.floor(maxY * Math.random());
+    if(ypos < radius){
+      ypos += radius;
+    }
+    else if(ypos > maxY - radius){
+      ypos -= radius;
+    }
+    return new Circle(xpos, ypos, radius);
   };
 
   Circle.prototype.setRandColor = function(){
@@ -70,19 +82,21 @@ var Circles = (function () {
   };
 
   Game.prototype.moveCircles = function(){
-    numCircles = this.circles.length
+
+    var numCircles = this.circles.length
     for (var i = 0; i < numCircles; ++i){
+      var radius = this.circles[i].radius
       this.circles[i].centerX = (this.circles[i].centerX +
                                  this.circles[i].xSpeed *
                                  this.circles[i].xDirection);
-      if (this.circles[i].centerX < 0 || this.circles[i].centerX > this.xDim){
+      if (this.circles[i].centerX < radius || this.circles[i].centerX > this.xDim - radius){
         this.circles[i].xDirection *= -1
       }
       this.circles[i].centerY = (this.circles[i].centerY +
                                  this.circles[i].ySpeed *
                                  this.circles[i].yDirection)
 
-      if (this.circles[i].centerY < 0 || this.circles[i].centerY > this.YDim){
+      if (this.circles[i].centerY < radius || this.circles[i].centerY > this.yDim - radius){
        this.circles[i].yDirection *= -1
       }
       this.circles[i].setRandColor();
