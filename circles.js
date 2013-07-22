@@ -74,9 +74,10 @@ var Circles = (function () {
     for (var i = 0; i < numCircles; ++i){
       this.circles[i].centerX = (this.circles[i].centerX +
                                  this.circles[i].xSpeed *
-                                 this.circles[i].xDirection +
-                                 this.xDim) %
-                                 this.xDim ;
+                                 this.circles[i].xDirection);
+      if (this.circles[i].centerX < 0 || this.circles[i].centerX > this.xDim){
+        this.circles[i].xDirection *= -1
+      }
       this.circles[i].centerY = (this.circles[i].centerY +
                                  this.circles[i].ySpeed *
                                  this.circles[i].yDirection +
