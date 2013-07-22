@@ -9,11 +9,12 @@ var Circles = (function () {
 
     this.yDirection = dirs[Math.floor(Math.random() * 2)];
     this.ySpeed = Math.floor(Math.random() * 10 + 1);
+    var colors = ["red","blue","purple", "cyan", "DarkViolet",
+                  "Indigo", "DarkTurquoise", "DeepSkyBlue"];
     this.setRandColor = function(){
-        var colors = ["red","blue","black","violet", "purple", "pink"];
-        this.color = colors[Math.floor(Math.random() * 6)];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
       }
-    this.color = this.setRandColor;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
   }
 
   Circle.MAX_RADIUS = 20;
@@ -37,10 +38,6 @@ var Circles = (function () {
     return new Circle(xpos, ypos, radius);
   };
 
-  Circle.prototype.setRandColor = function(){
-    var colors = ["red","blue","black","violet", "purple", "pink"]
-    this.color = colors[Math.floor(Math.random() * 6)]
-  }
 
   Circle.prototype.render = function (ctx) {
     console.log(ctx);
@@ -90,16 +87,18 @@ var Circles = (function () {
                                  this.circles[i].xSpeed *
                                  this.circles[i].xDirection);
       if (this.circles[i].centerX < radius || this.circles[i].centerX > this.xDim - radius){
-        this.circles[i].xDirection *= -1
+        this.circles[i].xDirection *= -1;
+        this.circles[i].setRandColor();
       }
       this.circles[i].centerY = (this.circles[i].centerY +
                                  this.circles[i].ySpeed *
                                  this.circles[i].yDirection)
 
       if (this.circles[i].centerY < radius || this.circles[i].centerY > this.yDim - radius){
-       this.circles[i].yDirection *= -1
+       this.circles[i].yDirection *= -1;
+       this.circles[i].setRandColor();
       }
-      this.circles[i].setRandColor();
+
     }
   };
 
