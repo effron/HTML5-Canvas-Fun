@@ -3,21 +3,37 @@ var Circles = (function () {
     this.centerX = centerX
     this.centerY = centerY;
     this.radius = radius;
+    var dirs = [-1, 1];
+    this.xDirection = dirs[Math.floor(Math.random() * 2)];
+    this.xSpeed = Math.floor(Math.random() * 10 + 1);
+
+    this.yDirection = dirs[Math.floor(Math.random() * 2)];
+    this.ySpeed = Math.floor(Math.random() * 10 + 1);
+    this.setRandColor = function(){
+        var colors = ["red","blue","black","violet", "purple", "pink"];
+        this.color = colors[Math.floor(Math.random() * 6)];
+      }
+    this.color = this.setRandColor;
   }
 
-  Circle.MAX_RADIUS = 25;
+  Circle.MAX_RADIUS = 20;
   Circle.randomCircle = function (maxX, maxY) {
     return new Circle(
-      maxX * Math.random(),
-      maxY * Math.random(),
-      Circle.MAX_RADIUS * Math.random()
+      Math.floor(maxX * Math.random()),
+      Math.floor(maxY * Math.random()),
+      Math.floor(Circle.MAX_RADIUS * Math.random())
     );
   };
 
+  Circle.prototype.setRandColor = function(){
+    var colors = ["red","blue","black","violet", "purple", "pink"]
+    this.color = colors[Math.floor(Math.random() * 6)]
+  }
+
   Circle.prototype.render = function (ctx) {
     console.log(ctx);
+    ctx.fillStyle = this.color;
 
-    ctx.fillStyle = "black";
     ctx.beginPath();
 
     ctx.arc(
@@ -44,10 +60,29 @@ var Circles = (function () {
 
   Game.prototype.render = function (ctx) {
     ctx.clearRect(0, 0, this.xDim, this.yDim);
+    this.moveCircles()
 
     for (var i = 0; i < this.circles.length; ++i) {
       console.log(this.circles[i]);
+
       this.circles[i].render(ctx);
+    }
+  };
+
+  Game.prototype.moveCircles = function(){
+    numCircles = this.circles.length
+    for (var i = 0; i < numCircles; ++i){
+      this.circles[i].centerX = (this.circles[i].centerX +
+                                 this.circles[i].xSpeed *
+                                 this.circles[i].xDirection +
+                                 this.xDim) %
+                                 this.xDim ;
+      this.circles[i].centerY = (this.circles[i].centerY +
+                                 this.circles[i].ySpeed *
+                                 this.circles[i].yDirection +
+                                 this.yDim) %
+                                 this.yDim ;
+      this.circles[i].setRandColor();
     }
   };
 
@@ -60,7 +95,7 @@ var Circles = (function () {
     var that = this;
     window.setInterval(function () {
       that.render(ctx);
-    }, 1000);
+    }, 100);
   };
 
   return {
