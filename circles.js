@@ -5,10 +5,10 @@ var Circles = (function () {
     this.radius = radius;
     var dirs = [-1, 1];
     this.xDirection = dirs[Math.floor(Math.random() * 2)];
-    this.xSpeed = Math.floor(Math.random() * 10 + 1);
+    this.xSpeed = Math.floor(Math.random() * 5 + 1);
 
     this.yDirection = dirs[Math.floor(Math.random() * 2)];
-    this.ySpeed = Math.floor(Math.random() * 10 + 1);
+    this.ySpeed = Math.floor(Math.random() * 5 + 1);
     var colors = ["red","blue","purple", "cyan", "DarkViolet",
                   "Indigo", "DarkTurquoise", "DeepSkyBlue"];
     this.setRandColor = function(){
@@ -98,6 +98,14 @@ var Circles = (function () {
        this.circles[i].yDirection *= -1;
        this.circles[i].setRandColor();
       }
+      
+      if (this.circles[i].radius < 20){
+        this.circles[i].radius += .01;
+      }
+      
+      if (this.circles[i].radius >= Circle.MAX_RADIUS){
+        this.circles[i].radius = 1;
+      }
 
     }
   };
@@ -111,7 +119,7 @@ var Circles = (function () {
     var that = this;
     window.setInterval(function () {
       that.render(ctx);
-    }, 100);
+    }, 15);
   };
 
   return {
