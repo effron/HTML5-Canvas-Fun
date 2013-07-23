@@ -8,6 +8,9 @@ var Circles = (function () {
     this.xSpeed = Math.floor(Math.random() * 5 + 1);
     this.yDirection = dirs[Math.floor(Math.random() * 2)];
     this.ySpeed = Math.floor(Math.random() * 5 + 1);
+    this.rotateSpeed = .5;
+    this.startAngle = 3 * Math.PI/2;
+    this.endAngle =   2 * Math.PI;
     
     this.rChange = .5;
     
@@ -51,8 +54,8 @@ var Circles = (function () {
       this.centerX,
       this.centerY,
       this.radius,
-      0,
-      2 * Math.PI,
+      this.startAngle,
+      this.endAngle,
       false
     );
 
@@ -114,7 +117,9 @@ var Circles = (function () {
       if (this.circles[i].radius >= Circle.MAX_RADIUS || this.circles[i].radius < 1){
         this.circles[i].rChange *= -1;
       }
-
+      
+      this.circles[i].startAngle += this.circles[i].rotateSpeed;
+      this.circles[i].endAngle += this.circles[i].rotateSpeed;
     }
   };
 
