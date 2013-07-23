@@ -8,11 +8,11 @@ var Circles = (function () {
     this.xSpeed = Math.floor(Math.random() * 5 + 1);
     this.yDirection = dirs[Math.floor(Math.random() * 2)];
     this.ySpeed = Math.floor(Math.random() * 5 + 1);
-    this.rotateSpeed = .5;
+    this.rotateSpeed = Math.random()/4 * dirs[Math.floor(Math.random()*2)]
     this.startAngle = 3 * Math.PI/2;
     this.endAngle =   2 * Math.PI;
     
-    this.rChange = .5;
+    this.rChange = .1;
     
     var colors = ["red","blue","purple", "cyan", "DarkViolet",
                   "Indigo", "DarkTurquoise", "DeepSkyBlue"];
@@ -22,7 +22,7 @@ var Circles = (function () {
     this.color = colors[Math.floor(Math.random() * colors.length)];
   }
 
-  Circle.MAX_RADIUS = 20;
+  Circle.MAX_RADIUS = 30;
   Circle.randomCircle = function (maxX, maxY) {
     var radius = Math.floor(Circle.MAX_RADIUS * Math.random());
     var xpos = Math.floor(maxX * Math.random());
