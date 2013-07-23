@@ -6,9 +6,11 @@ var Circles = (function () {
     var dirs = [-1, 1];
     this.xDirection = dirs[Math.floor(Math.random() * 2)];
     this.xSpeed = Math.floor(Math.random() * 5 + 1);
-
     this.yDirection = dirs[Math.floor(Math.random() * 2)];
     this.ySpeed = Math.floor(Math.random() * 5 + 1);
+    
+    this.rChange = .5;
+    
     var colors = ["red","blue","purple", "cyan", "DarkViolet",
                   "Indigo", "DarkTurquoise", "DeepSkyBlue"];
     this.setRandColor = function(){
@@ -83,28 +85,34 @@ var Circles = (function () {
     var numCircles = this.circles.length
     for (var i = 0; i < numCircles; ++i){
       var radius = this.circles[i].radius
+      
       this.circles[i].centerX = (this.circles[i].centerX +
                                  this.circles[i].xSpeed *
                                  this.circles[i].xDirection);
-      if (this.circles[i].centerX < radius || this.circles[i].centerX > this.xDim - radius){
-        this.circles[i].xDirection *= -1;
+      if (this.circles[i].centerX < radius){
+        this.circles[i].xDirection = 1;
         this.circles[i].setRandColor();
+      } 
+      else if(this.circles[i].centerX > this.xDim - radius){
+        this.circles[i].xDirection = -1;
       }
+      
       this.circles[i].centerY = (this.circles[i].centerY +
                                  this.circles[i].ySpeed *
                                  this.circles[i].yDirection)
 
-      if (this.circles[i].centerY < radius || this.circles[i].centerY > this.yDim - radius){
-       this.circles[i].yDirection *= -1;
+      if (this.circles[i].centerY < radius){
+        this.circles[i].yDirection = 1;
+        this.circles[i].setRandColor();
+      } 
+      else if(this.circles[i].centerY > this.yDim - radius){
+       this.circles[i].yDirection = -1;
        this.circles[i].setRandColor();
       }
       
-      if (this.circles[i].radius < 20){
-        this.circles[i].radius += .01;
-      }
-      
-      if (this.circles[i].radius >= Circle.MAX_RADIUS){
-        this.circles[i].radius = 1;
+      this.circles[i].radius += this.circles[i].rChange
+      if (this.circles[i].radius >= Circle.MAX_RADIUS || this.circles[i].radius < 1){
+        this.circles[i].rChange *= -1;
       }
 
     }
